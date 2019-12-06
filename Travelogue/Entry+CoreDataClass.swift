@@ -2,13 +2,13 @@
 //  Entry+CoreDataClass.swift
 //  Travelogue
 //
-//  Created by Clayton Cornett on 12/3/19.
+//  Created by Clayton Cornett on 12/4/19.
 //  Copyright © 2019 Clayton Cornett. All rights reserved.
-//
 //
 
 import Foundation
 import CoreData
+import UIKit
 
 @objc(Entry)
 public class Entry: NSManagedObject {
@@ -45,7 +45,7 @@ public class Entry: NSManagedObject {
             return nil
         }
         
-        self.init(entity: Note.entity(), insertInto: managedContext)
+        self.init(entity: Entry.entity(), insertInto: managedContext)
         self.title = title
         self.body = body
         self.addDate = Date(timeIntervalSinceNow: 0)

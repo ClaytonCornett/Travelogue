@@ -2,7 +2,7 @@
 //  Entry+CoreDataProperties.swift
 //  Travelogue
 //
-//  Created by Clayton Cornett on 12/3/19.
+//  Created by Clayton Cornett on 12/4/19.
 //  Copyright © 2019 Clayton Cornett. All rights reserved.
 //
 //

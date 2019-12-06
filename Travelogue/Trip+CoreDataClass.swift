@@ -2,17 +2,20 @@
 //  Trip+CoreDataClass.swift
 //  Travelogue
 //
-//  Created by Clayton Cornett on 12/3/19.
+//  Created by Clayton Cornett on 12/4/19.
 //  Copyright © 2019 Clayton Cornett. All rights reserved.
-//
 //
 
 import Foundation
 import CoreData
+import UIKit
 
 @objc(Trip)
 public class Trip: NSManagedObject {
-
+    
+    var tripEntries: [Entry]? {
+        return self.entry?.array as? [Entry]
+    }
     
     convenience init?(name: String?) {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate  //UIKit is needed to access UIApplication
@@ -20,6 +23,7 @@ public class Trip: NSManagedObject {
             let name = name, name != "" else {
                 return nil
         }
-        self.init(entity: Category.entity(), insertInto: managedContext)
+        self.init(entity: Trip.entity(), insertInto: managedContext)
         self.name = name
+}
 }

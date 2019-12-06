@@ -2,7 +2,7 @@
 //  Trip+CoreDataProperties.swift
 //  Travelogue
 //
-//  Created by Clayton Cornett on 12/3/19.
+//  Created by Clayton Cornett on 12/4/19.
 //  Copyright © 2019 Clayton Cornett. All rights reserved.
 //
 //
@@ -18,7 +18,8 @@ extension Trip {
     }
 
     @NSManaged public var name: String?
-    @NSManaged public var entry: NSSet?
+    @NSManaged public var entry: NSOrderedSet?
+    //NSSet?
 
 }
 

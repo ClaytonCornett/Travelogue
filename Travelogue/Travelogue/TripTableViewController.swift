@@ -1,19 +1,21 @@
 //
-//  TripViewController.swift
+//  TripTableViewController.swift
 //  Travelogue
 //
-//  Created by Clayton Cornett on 12/3/19.
+//  Created by Clayton Cornett on 12/4/19.
 //  Copyright © 2019 Clayton Cornett. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class TripViewController: UIViewController, UITableViewDataSource, UITableviewDelegate {
-
+class TripTableViewController: UITableViewController {
+    
+    @IBOutlet var tripsTableView: UITableView!
+    //@IBOutlet weak var tripsTableView: UIView!
     var trips = [Trip]()
     var dateFormatter = DateFormatter()
-   // @IBOutlet weak var tripsTableView: UITableView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,30 +26,32 @@ class TripViewController: UIViewController, UITableViewDataSource, UITableviewDe
     
     override func viewWillAppear(_ animated: Bool) {
         fetchTrips()
+        //tripsTableView.reloadInputViews()
         tripsTableView.reloadData()
+        
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return trips.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tripCell", for: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tripTableCell", for: indexPath)
         
         let trip = trips[indexPath.row]
-        cell.textLabel?.text = trip.title
-        if let addDate = trip.addDate {
-            cell.detailTextLabel?.text = dateFormatter.string(from: addDate)
-        }
+        cell.textLabel?.text = trip.name
+//        if let addDate = trip.addDate {
+//            cell.detailTextLabel?.text = dateFormatter.string(from: addDate)
+//        }
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (rowAction, indexPath) in
             self.deleteNote(indexPath: indexPath)
         }
@@ -56,29 +60,29 @@ class TripViewController: UIViewController, UITableViewDataSource, UITableviewDe
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let destination = segue.destination as? TripDetailTableViewController else {
+        guard let destination = segue.destination as? CreateTripViewController else {
             return
         }
         
-        if let segueIdentifier = segue.identifier, segueIdentifier == "trip", let indexPathForSelectedRow = notesTableView.indexPathForSelectedRow {
-            destination.note = notes[indexPathForSelectedRow.row]
-        }
+       // if let segueIdentifier = segue.identifier, segueIdentifier == "trip", let //indexPathForSelectedRow = tripsTableView.indexPathForSelectedRow {
+            //destination.trip = trips[indexPathForSelectedRow.row]
+        //}
     }
     
     func fetchTrips() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            notes = [Note]()
+            trips = [Trip]()
             return
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "rawAddDate", ascending: true)]
+        let fetchRequest: NSFetchRequest<Trip> = Trip.fetchRequest()
+        //fetchRequest.sortDescriptors = [NSSortDescriptor(key: "rawAddDate", ascending: true)]
         
         do {
-            notes = try managedContext.fetch(fetchRequest)
+            trips = try managedContext.fetch(fetchRequest)
         } catch {
-            alertNotifyUser(message: "Fetch for notes failed.")
+            alertNotifyUser(message: "Fetch for trips failed.")
         }
     }
     
@@ -86,15 +90,15 @@ class TripViewController: UIViewController, UITableViewDataSource, UITableviewDe
         let trip = trips[indexPath.row]
         
         if let managedObjectContext = trip.managedObjectContext {
-            managedObjectContext.delete(note)
+            managedObjectContext.delete(trip)
             
             do {
                 try managedObjectContext.save()
                 self.trips.remove(at: indexPath.row)
-                tripsTableView.reloadData()
+                //tripsTableView.reloadInputViews()
             } catch {
                 alertNotifyUser(message: "Delete failed.")
-                tripsTableView.reloadData()
+                //tripsTableView.reloadInputViews()
             }
         }
     }
