@@ -63,11 +63,19 @@ class TripTableViewController: UITableViewController {
         guard let destination = segue.destination as? CreateTripViewController else {
             return
         }
-        
+
        // if let segueIdentifier = segue.identifier, segueIdentifier == "trip", let //indexPathForSelectedRow = tripsTableView.indexPathForSelectedRow {
             //destination.trip = trips[indexPathForSelectedRow.row]
         //}
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        guard let destination = segue.destination as? EntryTableViewController,
+//            let selectedRow = self.tripsTableView.indexPathForSelectedRow?.row else {
+//                return
+//        }
+//        destination.selectedTrip = trips[selectedRow]
+//    }
     
     func fetchTrips() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {

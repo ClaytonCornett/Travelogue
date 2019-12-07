@@ -15,6 +15,8 @@ class EntryTableViewController: UITableViewController {
     var dateFormatter = DateFormatter()
     
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,15 +29,30 @@ class EntryTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        fetchTrips()
+            //fetchEntries()
         //tripsTableView.reloadInputViews()
         entryTableView.reloadData()
         
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+//    func fetchEntries() {
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+//            selectedTrip = [Trip]()
+//            return
+//        }
+//
+//        let managedContext = appDelegate.persistentContainer.viewContext
+//        let fetchRequest: NSFetchRequest<Trip> = Trip.fetchRequest()
+//        //fetchRequest.sortDescriptors = [NSSortDescriptor(key: "rawAddDate", ascending: true)]
+//
+//        do {
+//            selectedTrips = try managedContext.fetch(fetchRequest)
+//        } catch {
+//            alertNotifyUser(message: "Fetch for trips failed.")
+//        }
+//    }
+    
+
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return selectedTrip?.tripEntries?.count ?? 0
@@ -76,6 +93,8 @@ class EntryTableViewController: UITableViewController {
         guard segue.destination is CreateTripViewController else {
             return
         }
+        
+        
         
         // if let segueIdentifier = segue.identifier, segueIdentifier == "trip", let //indexPathForSelectedRow = tripsTableView.indexPathForSelectedRow {
         //destination.trip = trips[indexPathForSelectedRow.row]

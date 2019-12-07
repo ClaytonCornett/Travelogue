@@ -72,37 +72,42 @@ class AddEntryViewController: UIViewController {
     
     @IBAction func saveEntry(_ sender: Any) {
         
-        guard let title = titleTextField.text?.trimmingCharacters(in: .whitespaces), !title.isEmpty else {
-            //alertNotifyUser(message: "Please enter a title before saving the note.")
-            return
-        }
+        print("start of save")
+        let title = titleTextField.text
         
         // if an existing note, update it
         // otherwise, create a new note
         if let entry = entry {
+            print("#2")
             entry.title = title
             entry.body = descriptionTextField.text
             entry.image = image
             // addDate is set when the Note is initialized
             // for existing note, the addDate stays the same as initially set
         } else {
+            
+            print("#3")
             //entry = Entry(title: title, body: bodyTextView.text, image: image)
-            entry = Entry(title: title, body: descriptionTextField.text, image: image)
+            entry = Entry(title: title ?? "No Title", body: descriptionTextField.text, image: image)
         }
         
         // If a note exists, save it.
         if let entry = entry {
             do {
+                print("#4")
                 let managedContext = entry.managedObjectContext
                 try managedContext?.save()
             } catch {
+                print("#5")
                 //alertNotifyUser(message: "The note could not be saved.")
             }
             
         } else {
+            print("#6")
             //alertNotifyUser(message: "The note could not be created.")
         }
         
+        print("end of save")
         // Return to list of Notes.
         navigationController?.popViewController(animated: true)
     }
